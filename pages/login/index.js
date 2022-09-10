@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import styles from '../../src/styles/Home.module.css'
 import {apiCall} from '../../src/common/apiRoutes'
+
+const url = 'http://localhost:5000';
 const Login = () => {
   const [id, setId]=useState(null)
     const submit=async()=>{
-        const res = await apiCall('/get/'+id, 'GET');
+        const res = await apiCall(url+'/getproject/'+id, 'GET');
         console.log(res);
     }
     return (
