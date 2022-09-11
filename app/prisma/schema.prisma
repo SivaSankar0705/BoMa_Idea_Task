@@ -26,18 +26,18 @@ enum action {
 }
 
 model Access {
-  	  id                 Int     @id 
-          project_id      Int
+  	id                 Int     @id 
+    project_id      Int   
 	  user_id         Int     
 	  permit          String[] 
     @@unique([project_id, user_id,permit])
 }
 
 enum access {
-    Read
-    Create
-    Update
-    Delete
+    Read 
+    Create 
+    Update 
+    Delete 
 }
 
 	

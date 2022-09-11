@@ -7,18 +7,18 @@ services:
     container_name: nest-api 
     restart: always
     ports:
-      - 3001:3001
+      - 3000:3000
     depends_on:
       - postgres
     env_file:
       - .env
 
   postgres:
-    image: postgres:10
+    image: postgres:11
     container_name: postgresprisma
     restart: always
     ports:
-      - 5433:5433
+      - 5432:5432
     env_file:
       - .env
     volumes:
