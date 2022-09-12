@@ -50,13 +50,11 @@ app.post('/checkpermission',async(req,res)=>{
             date: new Date()
           },
         })
-        console.log('Created')
         res.json(result);
   }else{
     res.json({data:'Permission denied for project creation '});
   }
   } catch(err) {
-    console.log('Ohhhh nooo!');
     console.log(err)
     res.status(500).json({data:'Unknown error please contact your administrator'});
   }
@@ -70,20 +68,24 @@ app.post('/checkpermission',async(req,res)=>{
 //2 ===> Api for get a project,he has access to the project;
 app.get('/getproject/:id', async (req, res) => {
 
-  
-  const projAcces = await prisma.access.findUnique({
-    where: { id: Number(req.params.id) },
-  });
- 
-  console.log(projAcces)
-  if(projAcces?.permit.includes('Read')){
-    const projects = await prisma.project.findUnique({
-      where: { id: Number(projAcces.project_id) },
-    })
-    console.log("Dasta");
-    console.log(projects);
-    res.json(projects)
+  try{
+    const projAcces = await prisma.access.findUnique({
+      where: { id: Number(req.params.id) },
+    });
+   
+    if(projAcces?.permit.includes('Read')){
+      const projects = await prisma.project.findUnique({
+        where: { id: Number(projAcces.project_id) },
+      })
+      res.json(projects)
+    }else{
+      res.json({data:'Permission denied for project creation '});
+    }
+  }catch(err){
+    console.log(err)
+    res.status(500).json({data:'Unknown error please contact your administrator'});
   }
+
 
 
 });
@@ -93,9 +95,6 @@ app.get('/getproject/:id', async (req, res) => {
 app.get('/getAllProjects/:id',async(req,res)=>{
 
 
-
-  // const { id }: { id?: string } = req.params;
-// console.log("revised data@@@@@@@@@@@")
   const accessMany = await prisma.access.findMany({
     where: {id:Number(req.params.id) },
   });
