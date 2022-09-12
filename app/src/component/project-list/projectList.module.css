@@ -1,0 +1,22 @@
+.projectTable{
+    width: 100%;
+    border-collapse: collapse;
+}
+.projectTable thead{
+    background:black;
+    color: #ffffff;  
+}
+.projectTable thead tr th{
+    padding: 10px;
+    border: 1px solid #000000;
+}
+.projectTable tbody tr td{
+    border: 1px solid #dddddd;
+    padding: 10px;
+    text-align: center;
+}
+.projectTable tbody tr td span{
+    color: blue;
+    margin-right: 5px;
+    cursor: pointer;
+}

@@ -1,0 +1,13 @@
+.contain{
+    padding: 10px;
+    max-width: 1440px;
+    margin: auto;
+}
+.createProject{
+    background: #000000;
+    padding: 10px;
+    color: #ffffff;
+    margin: 10px auto;
+    float: right;
+    border-radius: 6px;
+}
