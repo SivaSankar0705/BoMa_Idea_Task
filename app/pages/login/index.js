@@ -1,49 +1,38 @@
 import React, {useState} from 'react';
 import styles from '../../src/styles/Home.module.css'
 import {apiCall} from '../../src/common/apiRoutes'
+import { useRouter } from 'next/router'
 
-const url = 'http://localhost:5000';
 const Login = () => {
   const [id, setId]=useState(null);
-  const [projNm, setprojNm]=useState(null)
-  const [projStat, setIdprojStat]=useState(null)
+  const router = useRouter()
     const submit=async()=>{
-        const res = await apiCall(url+'/getproject/'+id, 'GET');
+      try{
+        const res = await apiCall('http://localhost:5000/checkpermission', 'POST', {id: parseInt(id)});
         console.log(res);
+        if(res?.data){
+          localStorage.setItem('access', JSON.stringify(res?.data))
+          router.push('/project')
+        }else{
+          alert("you don't have a access")
+        }
+        
+      }catch(err){
+        alert(err?.data)
+      }
     }
-    const create=async()=>{
-      console.log(id)
-      const data = {
-          id:id,
-          proNm :   projNm,
-          projStat: projStat
-      };
-      const res = await apiCall(url+'/checkpermission', 'POST',data);
-      console.log(res);
-  }
+   
     return (
       <div className={styles.container}>
-        <div className={styles.login}>
+        <div className={styles.loginBg}>
+          <div className={styles.loginInnerDiv}>
+            <h2>Login</h2>
           <input type='number' className={styles.input} onChange={(e)=>setId(e.target.value)} />
           <button type='submit' onClick={()=>submit()}>Login</button>
-        </div>
-        <div>
-        <input type='number' className={styles.input} onChange={(e)=>setId(e.target.value)} />
-          <input type='string' className={styles.input} onChange={(e)=>setprojNm(e.target.value)} />
-          <input type='string' className={styles.input} onChange={(e)=>setIdprojStat(e.target.value)} />
-          <button type='submit' onClick={()=>create()}>Create</button>
+          </div>      
         </div>
       </div>
   
     );
 }
 export default Login;
-
-export async function createUser(data) {
-  const response = await fetch(url+`/api/user`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({user: data})
-    })
-  return await response.json();
-}
